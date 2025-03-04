@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Crypto;
+﻿using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.EC;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -6,7 +7,7 @@ using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
 using System.Security.Cryptography;
 
-namespace FideliusCrypto.KeyPairGen;
+namespace FideliusCrypto;
 
 public interface IFideliusKeyPairGeneration
 {
@@ -15,14 +16,35 @@ public interface IFideliusKeyPairGeneration
 
 public class FideliusKeyPairGeneration : IFideliusKeyPairGeneration
 {
+    private readonly ILogger<FideliusKeyPairGeneration> _logger;
+
+    public FideliusKeyPairGeneration(ILogger<FideliusKeyPairGeneration> logger)
+    {
+        _logger = logger;
+        _logger.LogInformation("FideliusKeyPairGeneration initialized.");
+    }
+
     public FideliusKeyMaterial Generate()
     {
-        var keyPair = GenerateKeyPair();
-        string privateKey = GetEncodedPrivateKeyAsBase64Str(keyPair.Private);
-        string publicKey = GetEncodedPublicKeyAsBase64Str(keyPair.Public);
-        string x509PublicKey = GetX509EncodedPublicKeyAsBase64Str(keyPair.Public);
-        string nonce = GenerateBase64Nonce();
-        return new FideliusKeyMaterial(privateKey, publicKey, x509PublicKey, nonce);
+        try
+        {
+            _logger.LogInformation("Generating new ECDH key pair...");
+
+            var keyPair = GenerateKeyPair();
+            string privateKey = GetEncodedPrivateKeyAsBase64Str(keyPair.Private);
+            string publicKey = GetEncodedPublicKeyAsBase64Str(keyPair.Public);
+            string x509PublicKey = GetX509EncodedPublicKeyAsBase64Str(keyPair.Public);
+            string nonce = GenerateBase64Nonce();
+
+            _logger.LogInformation("Key pair generated successfully.");
+
+            return new FideliusKeyMaterial(privateKey, publicKey, x509PublicKey, nonce);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Key pair generation failed.");
+            throw new FideliusCryptoException("Failed to generate ECDH key pair.", ex);
+        }
     }
 
     private static AsymmetricCipherKeyPair GenerateKeyPair()
@@ -40,26 +62,26 @@ public class FideliusKeyPairGeneration : IFideliusKeyPairGeneration
     private static string GetEncodedPrivateKeyAsBase64Str(AsymmetricKeyParameter privateKey)
     {
         var ecPrivateKey = (ECPrivateKeyParameters)privateKey;
-        return FideliusUtils.EncodeBytesToBase64(ecPrivateKey.D.ToByteArray());
+        return FideliusUtils.ToBase64String(ecPrivateKey.D.ToByteArray());
     }
 
     private static string GetEncodedPublicKeyAsBase64Str(AsymmetricKeyParameter publicKey)
     {
         var ecPublicKey = (ECPublicKeyParameters)publicKey;
-        return FideliusUtils.EncodeBytesToBase64(ecPublicKey.Q.GetEncoded(false));
+        return FideliusUtils.ToBase64String(ecPublicKey.Q.GetEncoded(false));
     }
 
     private static string GetX509EncodedPublicKeyAsBase64Str(AsymmetricKeyParameter publicKey)
     {
         var ecPublicKey = (ECPublicKeyParameters)publicKey;
         var x509EncodedKey = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(ecPublicKey).GetDerEncoded();
-        return FideliusUtils.EncodeBytesToBase64(x509EncodedKey);
+        return FideliusUtils.ToBase64String(x509EncodedKey);
     }
 
     private static string GenerateBase64Nonce()
     {
         byte[] salt = new byte[32];
         RandomNumberGenerator.Fill(salt);
-        return FideliusUtils.EncodeBytesToBase64(salt);
+        return FideliusUtils.ToBase64String(salt);
     }
 }

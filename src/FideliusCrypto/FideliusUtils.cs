@@ -12,17 +12,17 @@ namespace FideliusCrypto;
 
 public static class FideliusUtils
 {
-    public static string EncodeBytesToBase64(byte[] value)
+    public static string ToBase64String(byte[] value)
     {
         return Convert.ToBase64String(value);
     }
 
-    public static byte[] DecodeBase64ToBytes(string value)
+    public static byte[] FromBase64String(string value)
     {
         return Convert.FromBase64String(value);
     }
 
-    public static string DecodeBase64ToString(string value)
+    public static string GetString(string value)
     {
         return Encoding.UTF8.GetString(Convert.FromBase64String(value));
     }
@@ -40,7 +40,7 @@ public static class FideliusUtils
     public static byte[] Sha256Hkdf(byte[] salt, string initialKeyMaterial, int keyLengthInBytes)
     {
         HkdfBytesGenerator hkdfBytesGenerator = new(new Sha256Digest());
-        HkdfParameters hkdfParameters = new(DecodeBase64ToBytes(initialKeyMaterial), salt, null);
+        HkdfParameters hkdfParameters = new(FromBase64String(initialKeyMaterial), salt, null);
         hkdfBytesGenerator.Init(hkdfParameters);
         byte[] encryptionKey = new byte[keyLengthInBytes];
         hkdfBytesGenerator.GenerateBytes(encryptionKey, 0, keyLengthInBytes);
@@ -49,7 +49,7 @@ public static class FideliusUtils
 
     private static ECPrivateKeyParameters GenerateECPrivateKeyFromBase64Str(string base64PrivateKey)
     {
-        byte[] privateKeyBytes = DecodeBase64ToBytes(base64PrivateKey);
+        byte[] privateKeyBytes = FromBase64String(base64PrivateKey);
         var ecParams = CustomNamedCurves.GetByName(Constants.Curve);
         var ecDomainParameters = new ECDomainParameters(ecParams.Curve, ecParams.G, ecParams.N, ecParams.H, ecParams.GetSeed());
         var privateKeySpec = new ECPrivateKeyParameters(new Org.BouncyCastle.Math.BigInteger(privateKeyBytes), ecDomainParameters);
@@ -58,7 +58,7 @@ public static class FideliusUtils
 
     private static ECPublicKeyParameters GenerateECPublicKeyFromBase64Str(string base64PublicKey)
     {
-        byte[] publicKeyBytes = DecodeBase64ToBytes(base64PublicKey);
+        byte[] publicKeyBytes = FromBase64String(base64PublicKey);
         var ecParams = CustomNamedCurves.GetByName(Constants.Curve);
         var ecDomainParameters = new ECDomainParameters(ecParams.Curve, ecParams.G, ecParams.N, ecParams.H, ecParams.GetSeed());
         var publicKeySpec = new ECPublicKeyParameters(ecParams.Curve.DecodePoint(publicKeyBytes), ecDomainParameters);
@@ -67,7 +67,7 @@ public static class FideliusUtils
 
     private static AsymmetricKeyParameter GenerateX509PublicKeyFromBase64Str(string base64PublicKey)
     {
-        byte[] publicKeyBytes = DecodeBase64ToBytes(base64PublicKey);
+        byte[] publicKeyBytes = FromBase64String(base64PublicKey);
 
         SubjectPublicKeyInfo subjectPublicKeyInfo = SubjectPublicKeyInfo.GetInstance(Asn1Object.FromByteArray(publicKeyBytes));
         return PublicKeyFactory.CreateKey(subjectPublicKeyInfo);
@@ -83,7 +83,7 @@ public static class FideliusUtils
         var keyAgreement = AgreementUtilities.GetBasicAgreement("ECDH");
         keyAgreement.Init(privateKey);
         var sharedSecretBytes = keyAgreement.CalculateAgreement(publicKey).ToByteArray();
-        return EncodeBytesToBase64(sharedSecretBytes);
+        return ToBase64String(sharedSecretBytes);
     }
 
     public static string[] ReadArgsFromFile(string filepath)

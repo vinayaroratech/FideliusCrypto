@@ -101,6 +101,24 @@ class Program
     }
 }
 ```
+
+## 📦 **Dependency Injection Support**
+FideliusCrypto can be easily registered in **.NET Dependency Injection (DI)**:
+
+```csharp
+using FideliusCrypto;
+using Microsoft.Extensions.DependencyInjection;
+
+var services = new ServiceCollection();
+services.AddFideliusCrypto();
+var serviceProvider = services.BuildServiceProvider();
+
+// Resolve services
+var keyPairGen = serviceProvider.GetRequiredService<FideliusKeyPairGeneration>();
+var encryptionService = serviceProvider.GetRequiredService<FideliusEncryptionService>();
+var decryptionService = serviceProvider.GetRequiredService<FideliusDecryptionService>();
+```
+
 ## 🛠 **Features**
 KeyPair Generation: Generate cryptographic key pairs for secure communication.
 

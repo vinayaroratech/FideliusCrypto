@@ -1,22 +1,23 @@
-﻿using FideliusCrypto.Encryptions;
-using FideliusCrypto.KeyPairGen;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace FideliusCrypto.Tests;
 
 public class FideliusEncryptionServiceTests
 {
-    private readonly FideliusEncryptionService _encryptionService;
-
+    private readonly IFideliusEncryptionService _encryptionService;
     public FideliusEncryptionServiceTests()
     {
-        _encryptionService = new FideliusEncryptionService();
+        var services = new ServiceCollection();
+        services.AddLogging()
+            .AddSingleton<IFideliusEncryptionService, FideliusEncryptionService>();
+        var serviceProvider = services.BuildServiceProvider();
+        _encryptionService = serviceProvider.GetRequiredService<IFideliusEncryptionService>();
     }
 
     [Fact]
     public void Encrypt_ShouldReturnValidResponse()
     {
         // Arrange
-        var senderPub = "BAXAIx7aWOqR36CRiRe2h/iWUVn4qNqiel/1rInWt8Uga4jSBUOGnE2Q9DkwfEoUp8C6I9K6kmtn57E5nC95o04=";
         var encryptionRequest = new FideliusEncryptionRequest(
             "C9ffWIcBGlr+ZwaGPpnj6A0OJJ97zv4Xp0BxCoAgwLI=",
             "Gr4W05oTyjqZLjos7Rdsb/JPwrIRKDv2PYC09OJ+SXs=",
@@ -44,5 +45,19 @@ public class FideliusEncryptionServiceTests
         // Act & Assert
         var exception = Record.Exception(() => _encryptionService.Encrypt(encryptionRequest));
         Assert.NotNull(exception);
+    }
+
+    [Fact]
+    public void Encrypt_InvalidPrivateKey_ThrowsEncryptionException()
+    {
+        var request = new FideliusEncryptionRequest("invalid_key", "nonce", "validPublicKey", "nonce", "test");
+        Assert.Throws<EncryptionException>(() => _encryptionService.Encrypt(request));
+    }
+
+    [Fact]
+    public void Encrypt_InvalidPublicKey_ThrowsEncryptionException()
+    {
+        var request = new FideliusEncryptionRequest("validPrivateKey", "nonce", "invalid_key", "nonce", "test");
+        Assert.Throws<EncryptionException>(() => _encryptionService.Encrypt(request));
     }
 }

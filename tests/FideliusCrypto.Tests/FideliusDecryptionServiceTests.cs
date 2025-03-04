@@ -1,15 +1,18 @@
-﻿using FideliusCrypto.Decryptions;
-using FideliusCrypto.KeyPairGen;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace FideliusCrypto.Tests;
 
 public class FideliusDecryptionServiceTests
 {
-    private readonly FideliusDecryptionService _decryptionService;
+    private readonly IFideliusDecryptionService _decryptionService;
 
     public FideliusDecryptionServiceTests()
     {
-        _decryptionService = new FideliusDecryptionService();
+        var services = new ServiceCollection();
+        services.AddLogging()
+            .AddSingleton<IFideliusDecryptionService, FideliusDecryptionService>();
+        var serviceProvider = services.BuildServiceProvider();
+        _decryptionService = serviceProvider.GetRequiredService<IFideliusDecryptionService>();
     }
 
     [Fact]
@@ -45,6 +48,20 @@ public class FideliusDecryptionServiceTests
             "senderPublicKey");
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => _decryptionService.Decrypt(decryptionRequest));
+        Assert.Throws<DecryptionException>(() => _decryptionService.Decrypt(decryptionRequest));
+    }
+
+    [Fact]
+    public void Decrypt_InvalidPrivateKey_ThrowsDecryptionException()
+    {
+        var request = new FideliusDecryptionRequest("encryptedData", "nonce", "nonce", "invalid_key", "validPublicKey");
+        Assert.Throws<DecryptionException>(() => _decryptionService.Decrypt(request));
+    }
+
+    [Fact]
+    public void Decrypt_InvalidPublicKey_ThrowsDecryptionException()
+    {
+        var request = new FideliusDecryptionRequest("encryptedData", "nonce", "nonce", "validPrivateKey", "invalid_key");
+        Assert.Throws<DecryptionException>(() => _decryptionService.Decrypt(request));
     }
 }

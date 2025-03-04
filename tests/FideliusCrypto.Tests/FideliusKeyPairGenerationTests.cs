@@ -1,17 +1,26 @@
-﻿using FideliusCrypto.KeyPairGen;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace FideliusCrypto.Tests;
 
 public class FideliusKeyPairGenerationTests
 {
+    private readonly IFideliusKeyPairGeneration _keyPairGen;
+    public FideliusKeyPairGenerationTests()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging()
+            .AddSingleton<IFideliusKeyPairGeneration, FideliusKeyPairGeneration>();
+        var serviceProvider = services.BuildServiceProvider();
+        _keyPairGen = serviceProvider.GetRequiredService<IFideliusKeyPairGeneration>();
+    }
+
     [Fact]
     public void Generate_ShouldReturnFideliusKeyMaterial()
     {
         // Arrange
-        var keyPairGen = new FideliusKeyPairGeneration();
 
         // Act
-        var result = keyPairGen.Generate();
+        var result = _keyPairGen.Generate();
 
         // Assert
         Assert.NotNull(result);

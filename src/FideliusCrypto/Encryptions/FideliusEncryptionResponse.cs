@@ -1,4 +1,4 @@
-﻿namespace FideliusCrypto.Encryptions;
+﻿namespace FideliusCrypto;
 
 public record FideliusEncryptionResponse(
     string EncryptedData,
