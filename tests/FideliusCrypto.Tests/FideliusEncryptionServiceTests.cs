@@ -1,4 +1,5 @@
 ﻿using FideliusCrypto.Encryptions;
+using FideliusCrypto.KeyPairGen;
 
 namespace FideliusCrypto.Tests;
 
