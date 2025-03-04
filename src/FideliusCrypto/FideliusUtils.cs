@@ -88,14 +88,14 @@ public static class FideliusUtils
 
     public static string[] ReadArgsFromFile(string filepath)
     {
-        List<string> argsFromFile = [];
+        List<string> argsFromFile = new();
         using StreamReader reader = new(filepath);
-        string line;
+        string? line;
         while ((line = reader.ReadLine()) != null)
         {
             argsFromFile.Add(line);
         }
 
-        return [.. argsFromFile];
+        return argsFromFile.ToArray();
     }
 }
