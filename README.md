@@ -13,3 +13,42 @@ A .NET library for secure ECDH-based encryption using **BouncyCastle**. Provides
 Install the package via NuGet:  
 ```sh
 dotnet add package FideliusCrypto
+
+KeyPair Generation:  
+```sh
+var keyPairGen = new FideliusKeyPairGeneration();
+var result = keyPairGen.Generate();
+
+Encryption:  
+```sh
+var keyPairGen = new FideliusKeyPairGeneration();
+var sender = keyPairGen.Generate();
+var requester = keyPairGen.Generate();
+
+var encryptionRequest = new FideliusEncryptionRequest(
+    sender.PrivateKey,
+    sender.Nonce,
+    requester.PublicKey,
+    requester.Nonce,
+    "testString");
+
+var encryptionService = new FideliusEncryptionService();
+
+var response = _encryptionService.Encrypt(encryptionRequest);
+
+Decryption:  
+```sh
+var keyPairGen = new FideliusKeyPairGeneration();
+var sender = keyPairGen.Generate();
+var requester = keyPairGen.Generate();
+
+var decryptionRequest = new FideliusDecryptionRequest(
+    "G3UUnMPvWxCt3kE7KZ6kSpfakoeo8sn/Fzo="
+    requester.Nonce,
+    sender.Nonce,
+    requester.PrivateKey,
+    sender.PublicKey);
+
+var decryptionService = new FideliusDecryptionService();
+
+var response = decryptionService.Decrypt(decryptionRequest);
