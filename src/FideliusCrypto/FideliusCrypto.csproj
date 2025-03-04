@@ -1,22 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<Version>1.0.1</Version>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Authors>Vinay Arora</Authors>
+		<Description>FideliusCrypto is a .NET library for secure ECDH-based encryption using BouncyCastle. It provides key exchange, AES-GCM encryption, and HKDF key derivation for end-to-end encryption scenarios.</Description>
+		<PackageTags>Encryption Cryptography ECDH AESGCM Security BouncyCastle</PackageTags>
 		<RepositoryUrl>https://github.com/vinayaroratech/FideliusCrypto</RepositoryUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<License>MIT</License>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/vinayaroratech/FideliusCrypto</PackageProjectUrl>
+		<PackageIconUrl>https://raw.githubusercontent.com/vinayaroratech/FideliusCrypto/main/icon.png</PackageIconUrl>
+		<PackageReleaseNotes>Initial release of FideliusCrypto with ECDH key exchange, AES-GCM encryption, and HKDF support.</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>..\..\README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
 	</ItemGroup>
