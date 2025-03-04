@@ -38,7 +38,6 @@ public class FideliusEncryptionService : IFideliusEncryptionService
 
         byte[] aesEncryptionKey = FideliusUtils.Sha256Hkdf(salt, sharedSecret, 32);
 
-        string encryptedData = "";
         byte[] stringBytes = System.Text.Encoding.UTF8.GetBytes(stringToEncrypt);
 
         GcmBlockCipher cipher = new(new AesEngine());
