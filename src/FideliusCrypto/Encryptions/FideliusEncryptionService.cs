@@ -94,12 +94,12 @@ public class FideliusEncryptionService : IFideliusEncryptionService
 
             if (privateKeyBytes.Length != 32) // 256-bit private key
             {
-                throw new EncryptionException("Invalid private key length. Expected 32 bytes.");
+                throw new EncryptionException($"Invalid private key length. Expected 32 bytes but passed {privateKeyBytes.Length}.");
             }
 
             if (publicKeyBytes.Length != 65) // 520-bit uncompressed public key
             {
-                throw new EncryptionException("Invalid public key length. Expected 65 bytes.");
+                throw new EncryptionException($"Invalid public key length. Expected 65 bytes but passed {publicKeyBytes.Length}.");
             }
         }
         catch (FormatException)

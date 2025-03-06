@@ -19,7 +19,7 @@ public class FideliusEncryptionServiceTests
     {
         // Arrange
         var encryptionRequest = new FideliusEncryptionRequest(
-            KeyStorageUtil.Alice.PrivateKey,
+            KeyStorageUtil.Bob.PrivateKey,
             KeyStorageUtil.Alice.Nonce,
             KeyStorageUtil.Bob.PublicKey,
             KeyStorageUtil.Bob.Nonce,
@@ -80,5 +80,21 @@ public class FideliusEncryptionServiceTests
     {
         var request = new FideliusEncryptionRequest("validPrivateKey", "nonce", "invalid_key", "nonce", "test");
         Assert.Throws<EncryptionException>(() => _encryptionService.Encrypt(request));
+    }
+
+    [Fact]
+    public void Encrypt_InvalidPrivateKeyLength_ThrowsEncryptionException()
+    {
+        // Arrange
+        var encryptionRequest = new FideliusEncryptionRequest(
+            "G8N7RLM9zTXxTLj2P/yokWaEmeHtmmwruUHlXiNlGQ==",
+            KeyStorageUtil.Bob.Nonce,
+            KeyStorageUtil.Alice.PublicKey,
+            KeyStorageUtil.Alice.Nonce,
+            "EncryptUsingBobPrivateKeyTestString");
+
+        // Act -> Assert
+        Assert.Throws<EncryptionException>(() => _encryptionService.Encrypt(encryptionRequest));
+
     }
 }
