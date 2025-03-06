@@ -16,15 +16,36 @@ public class FideliusDecryptionServiceTests
     }
 
     [Fact]
-    public void Decrypt_ValidRequest_ReturnsDecryptedData()
+    public void Decrypt_UsingAlicePrivateKey_ValidRequest_ReturnsDecryptedData()
     {
         // Arrange
         var decryptionRequest = new FideliusDecryptionRequest(
-            "G3UUnMPvWxCt3kE7KZ6kSpfakoeo8sn/Fzo=",
-            "VjAsrITRKkdqukZ6k+4+UmVqpsJByO/TRjff+emM2zc=",
-            "+BDKKmri3wzCraqzHTb9aYkobLzhdF/hYBzUoXn6WT4=",
-            "C+mltA3KD+/aG52Ph9WT4u5OLaPHu/EYlc6PxA3atR0=",
-            "BHC6gwMzYzisa9sl01tnSCtjzGCIGJuqgcdqnaBdsQGzIceeuXBo1lVpVRaOtiooD/SzNN9U+HDQku1cYNL5U0w=");
+            KeyStorageUtil.Alice.PrivateKey,
+            KeyStorageUtil.Alice.Nonce,
+            KeyStorageUtil.Bob.PublicKey,
+            KeyStorageUtil.Bob.Nonce,
+            "8ocpmI6RIVAjsgjlj82W5b1MXBHidTc8oYeq0HkxdC0vEGeMPxSULKIerI6DNPPxEYpc");
+
+        // Act
+        var response = _decryptionService.Decrypt(decryptionRequest);
+
+        // Assert
+        Assert.NotNull(response);
+        Assert.IsType<FideliusDecryptionResponse>(response);
+        Assert.NotEmpty(response.DecryptedData);
+        Assert.Equal("EncryptUsingBobPrivateKeyTestString", response.DecryptedData);
+    }
+
+    [Fact]
+    public void Decrypt_UsingBobPrivateKey_ValidRequest_ReturnsDecryptedData()
+    {
+        // Arrange
+        var decryptionRequest = new FideliusDecryptionRequest(
+            KeyStorageUtil.Bob.PrivateKey,
+            KeyStorageUtil.Bob.Nonce,
+            KeyStorageUtil.Alice.PublicKey,
+            KeyStorageUtil.Alice.Nonce,
+            "w4w5nqSVJ2w+vIN5H2hfiQwr+1mCCtLKg3A=");
 
         // Act
         var response = _decryptionService.Decrypt(decryptionRequest);

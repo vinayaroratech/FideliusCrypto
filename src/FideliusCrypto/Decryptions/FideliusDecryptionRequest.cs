@@ -1,8 +1,8 @@
 ﻿namespace FideliusCrypto;
 
 public record FideliusDecryptionRequest(
-    string EncryptedData,
-    string RequesterNonce,
-    string SenderNonce,
     string RequesterPrivateKey,
-    string SenderPublicKey);
+    string RequesterNonce,
+    string SenderPublicKey,
+    string SenderNonce,
+    string EncryptedData);

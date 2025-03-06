@@ -21,7 +21,7 @@ public class FideliusKeyPairGenerationTests
 
         // Act
         var result = _keyPairGen.Generate();
-
+       
         // Assert
         Assert.NotNull(result);
         Assert.False(string.IsNullOrEmpty(result.PrivateKey));

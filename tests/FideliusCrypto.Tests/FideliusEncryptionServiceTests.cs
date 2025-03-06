@@ -15,15 +15,36 @@ public class FideliusEncryptionServiceTests
     }
 
     [Fact]
-    public void Encrypt_ShouldReturnValidResponse()
+    public void Encrypt_UsingAlicePrivateKey_ShouldReturnValidResponse()
     {
         // Arrange
         var encryptionRequest = new FideliusEncryptionRequest(
-            "C9ffWIcBGlr+ZwaGPpnj6A0OJJ97zv4Xp0BxCoAgwLI=",
-            "Gr4W05oTyjqZLjos7Rdsb/JPwrIRKDv2PYC09OJ+SXs=",
-            "BDk3fN9IfRp4DZBWEVBfaANqKF6/44EuSnGGt9v62W3FXJK+o8gdxc0zUf2L71XZvF8Egr+vDJEyDdWmDJ3DPuM=",
-             "E/I1kBufDwzjbW7LWYeZi7j2DBB7I6nHTf5rLuU0KsY=",
+            KeyStorageUtil.Alice.PrivateKey,
+            KeyStorageUtil.Alice.Nonce,
+            KeyStorageUtil.Bob.PublicKey,
+            KeyStorageUtil.Bob.Nonce,
             "testString");
+
+        // Act
+        var response = _encryptionService.Encrypt(encryptionRequest);
+
+        // Assert
+        Assert.NotNull(response);
+        Assert.False(string.IsNullOrEmpty(response.EncryptedData));
+        Assert.False(string.IsNullOrEmpty(response.Iv));
+        Assert.False(string.IsNullOrEmpty(response.Salt));
+    }
+    
+    [Fact]
+    public void Encrypt_UsingBobPrivateKey_ShouldReturnValidResponse()
+    {
+        // Arrange
+        var encryptionRequest = new FideliusEncryptionRequest(
+            KeyStorageUtil.Bob.PrivateKey,
+            KeyStorageUtil.Bob.Nonce,
+            KeyStorageUtil.Alice.PublicKey,
+            KeyStorageUtil.Alice.Nonce,
+            "EncryptUsingBobPrivateKeyTestString");
 
         // Act
         var response = _encryptionService.Encrypt(encryptionRequest);
