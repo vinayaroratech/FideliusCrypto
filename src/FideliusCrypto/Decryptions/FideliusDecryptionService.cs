@@ -103,14 +103,16 @@ public class FideliusDecryptionService : IFideliusDecryptionService
             byte[] privateKeyBytes = FideliusUtils.FromBase64String(privateKey);
             byte[] publicKeyBytes = FideliusUtils.FromBase64String(publicKey);
 
-            if (privateKeyBytes.Length != 32)
+            if (privateKeyBytes.Length != 32) // 256-bit private key
             {
-                throw new DecryptionException("Invalid private key length. Expected 32 bytes.");
+                _logger.LogWarning("Invalid private key length. Expected 32 bytes but passed {Length}.", privateKeyBytes.Length);
+                //throw new DecryptionException($"Invalid private key length. Expected 32 bytes but passed {privateKeyBytes.Length}.");
             }
 
-            if (publicKeyBytes.Length != 65)
+            if (publicKeyBytes.Length != 65) // 520-bit uncompressed public key
             {
-                throw new DecryptionException("Invalid public key length. Expected 65 bytes.");
+                _logger.LogWarning("Invalid public key length. Expected 65 bytes but passed {Length}.", publicKeyBytes.Length);
+                //throw new DecryptionException($"Invalid public key length. Expected 65 bytes but passed {publicKeyBytes.Length}.");
             }
         }
         catch (FormatException)

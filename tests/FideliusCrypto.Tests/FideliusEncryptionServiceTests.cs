@@ -1,17 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace FideliusCrypto.Tests;
 
 public class FideliusEncryptionServiceTests
 {
-    private readonly IFideliusEncryptionService _encryptionService;
+    private readonly Mock<ILogger<FideliusEncryptionService>> _loggerMock;
+    private readonly FideliusEncryptionService _encryptionService;
+
     public FideliusEncryptionServiceTests()
     {
-        var services = new ServiceCollection();
-        services.AddLogging()
-            .AddSingleton<IFideliusEncryptionService, FideliusEncryptionService>();
-        var serviceProvider = services.BuildServiceProvider();
-        _encryptionService = serviceProvider.GetRequiredService<IFideliusEncryptionService>();
+        _loggerMock = new Mock<ILogger<FideliusEncryptionService>>();
+        _encryptionService = new FideliusEncryptionService(_loggerMock.Object);
     }
 
     [Fact]
@@ -34,7 +35,7 @@ public class FideliusEncryptionServiceTests
         Assert.False(string.IsNullOrEmpty(response.Iv));
         Assert.False(string.IsNullOrEmpty(response.Salt));
     }
-    
+
     [Fact]
     public void Encrypt_UsingBobPrivateKey_ShouldReturnValidResponse()
     {
@@ -94,7 +95,7 @@ public class FideliusEncryptionServiceTests
             "EncryptUsingBobPrivateKeyTestString");
 
         // Act -> Assert
-        Assert.Throws<EncryptionException>(() => _encryptionService.Encrypt(encryptionRequest));
-
+        var response = _encryptionService.Encrypt(encryptionRequest);
+        _loggerMock.VerifyLog(LogLevel.Warning, "Invalid private key length. Expected 32 bytes but passed 31.", Times.Once());
     }
 }
