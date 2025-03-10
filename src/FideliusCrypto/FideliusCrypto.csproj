@@ -3,7 +3,7 @@
 		<TargetFrameworks>net6.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.9</Version>
+		<Version>1.0.10</Version>
 		<Authors>Vinay Arora</Authors>
 		<Description>FideliusCrypto is a .NET library for secure ECDH-based encryption using BouncyCastle. It provides key exchange, AES-GCM encryption, and HKDF key derivation for end-to-end encryption scenarios.</Description>
 		<PackageTags>Encryption Cryptography ECDH AESGCM Security BouncyCastle</PackageTags>
