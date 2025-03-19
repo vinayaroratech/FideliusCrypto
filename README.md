@@ -4,7 +4,9 @@
 [![NuGet](https://img.shields.io/nuget/v/FideliusCrypto.svg)](https://www.nuget.org/packages/FideliusCrypto/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/FideliusCrypto.svg)](https://www.nuget.org/packages/FideliusCrypto/)
 
-A .NET library for secure ECDH-based encryption using **BouncyCastle**. Provides **key exchange, AES-GCM encryption, and HKDF key derivation**.
+A .NET library for **ECDH** cryptography, utilizing Curve25519 and a custom **HMAC**-based Key Derivation Function to generate **AES-GCM** keys for secure data **encryption** and **decryption**. 
+Its primary purpose is to secure health data within the ABDM ecosystem.
+
 
 ---
 

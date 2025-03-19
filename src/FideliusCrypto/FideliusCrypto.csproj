@@ -5,8 +5,9 @@
 		<Nullable>enable</Nullable>
 		<Version>1.0.11</Version>
 		<Authors>Vinay Arora</Authors>
-		<Description>FideliusCrypto is a .NET library for secure ECDH-based encryption using BouncyCastle. It provides key exchange, AES-GCM encryption, and HKDF key derivation for end-to-end encryption scenarios.</Description>
-		<PackageTags>Encryption Cryptography ECDH AESGCM Security BouncyCastle</PackageTags>
+		<Description>
+			FideliusCrypto is a .NET library implementing ECDH cryptography with Curve25519 and a custom HMAC-based Key Derivation Function to derive AES-GCM keys. Designed to ensure the secure encryption and decryption of data, it is tailored to safeguard health data in the ABDM ecosystem.</Description>
+		<PackageTags>Encryption Cryptography ECDH AESGCM Security ABDM</PackageTags>
 		<RepositoryUrl>https://github.com/vinayaroratech/FideliusCrypto</RepositoryUrl>
 		<License>MIT</License>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
