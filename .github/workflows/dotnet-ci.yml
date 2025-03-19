@@ -13,8 +13,12 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      attestations: write
 
     steps:
       - name: Checkout code
@@ -85,3 +89,11 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push "nupkgs/*.nupkg" --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2 # v2.2.3
+        with:
+            subject-path: 'nupkgs/*.nupkg'
+      - uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+            name: packages
+            path: nupkgs

@@ -75,14 +75,24 @@ public class FideliusDecryptionServiceTests
     [Fact]
     public void Decrypt_InvalidPrivateKey_ThrowsDecryptionException()
     {
-        var request = new FideliusDecryptionRequest("encryptedData", "nonce", "nonce", "invalid_key", "validPublicKey");
+        var request = new FideliusDecryptionRequest(
+            "encryptedData",
+            "nonce",
+            "nonce",
+            "invalid_key",
+            "validPublicKey");
         Assert.Throws<DecryptionException>(() => _decryptionService.Decrypt(request));
     }
 
     [Fact]
     public void Decrypt_InvalidPublicKey_ThrowsDecryptionException()
     {
-        var request = new FideliusDecryptionRequest("encryptedData", "nonce", "nonce", "validPrivateKey", "invalid_key");
+        var request = new FideliusDecryptionRequest(
+            "encryptedData",
+            "nonce",
+            "nonce",
+            "validPrivateKey",
+            "invalid_key");
         Assert.Throws<DecryptionException>(() => _decryptionService.Decrypt(request));
     }
 }
