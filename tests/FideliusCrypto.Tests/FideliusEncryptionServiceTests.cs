@@ -20,7 +20,7 @@ public class FideliusEncryptionServiceTests
     {
         // Arrange
         var encryptionRequest = new FideliusEncryptionRequest(
-            KeyStorageUtil.Bob.PrivateKey,
+            KeyStorageUtil.Alice.PrivateKey,
             KeyStorageUtil.Alice.Nonce,
             KeyStorageUtil.Bob.PublicKey,
             KeyStorageUtil.Bob.Nonce,
@@ -62,7 +62,7 @@ public class FideliusEncryptionServiceTests
     {
         // Arrange
         var encryptionRequest = new FideliusEncryptionRequest(
-            null, null, null, null, null);
+            string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
         // Act & Assert
         var exception = Record.Exception(() => _encryptionService.Encrypt(encryptionRequest));

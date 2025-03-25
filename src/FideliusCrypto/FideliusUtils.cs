@@ -80,7 +80,7 @@ public static class FideliusUtils
             ? GenerateECPublicKeyFromBase64Str(base64PublicKey)
             : GenerateX509PublicKeyFromBase64Str(base64PublicKey);
 
-        var keyAgreement = AgreementUtilities.GetBasicAgreement("ECDH");
+        var keyAgreement = AgreementUtilities.GetBasicAgreement(Constants.Algorithm);
         keyAgreement.Init(privateKey);
         var sharedSecretBytes = keyAgreement.CalculateAgreement(publicKey).ToByteArray();
         return ToBase64String(sharedSecretBytes);

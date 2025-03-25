@@ -4,16 +4,17 @@ public static class KeyStorageUtil
 {
     public static class Alice
     {
-
-        public static readonly string PrivateKey = "CVlqmNkSalnhT80AJBIi2PBIv3O9CE212r9k03SJj6U=";
-        public static readonly string PublicKey = "BA9lPSBcOo/9qqS+mteCMeHAJ8lgv/CVXSsM0T+BptK5SVJlIkKFQ9CgkkFSH2FKYLiuRgzNOW1djH/1Rt0IydI=";
-        public static readonly string Nonce = "6D3pvHhfBnlu6rLKLfM6f7J9cNqcIBy73Cdjmn59OXU=";
+        public static readonly string PrivateKey = "BEgfZJO3tjo8FDbju4G4g8jA+rdul6fZvGjm1voxyQ4=";
+        public static readonly string PublicKey = "BGsBWellrI7PQJvI07DSBgv+/enxAkziAMZD8oDT4ms1IaeBZZQ/9qjwDrolB6mnNJMhpuhgIJWx8YKEJUfDCB8=";
+        public static readonly string X509PublicKey = "MIIBMTCB6gYHKoZIzj0CATCB3gIBATArBgcqhkjOPQEBAiB/////////////////////////////////////////7TBEBCAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqYSRShRAQge0Je0Je0Je0Je0Je0Je0Je0Je0Je0Je0JgtenHcQyGQEQQQqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq0kWiCuGaG4oIa04B7dLHdI0UySPU1+bXxhsinpxaJ+ztPZAiAQAAAAAAAAAAAAAAAAAAAAFN753qL3nNZYEmMaXPXT7QIBCANCAARrAVnpZayOz0CbyNOw0gYL/v3p8QJM4gDGQ/KA0+JrNSGngWWUP/ao8A66JQeppzSTIaboYCCVsfGChCVHwwgf";
+        public static readonly string Nonce = "gSoiEbdzRQcKmFvs6k8aN3/Xoha6x8/jSWFsHlSoNHU=";
     }
 
     public static class Bob
     {
-        public static readonly string PrivateKey = "B2NvIgco9Flj80aWOjOQP439rnewxqnzC0aEmFJCTDw=";
-        public static readonly string PublicKey = "BFZyYO/GWQUuHTB+8q6BxV2KZN9hwSKU65N4ft6Y8w08FIgmR6zxAb0lEFIqy0AxYEaKPhsMVxmUc5JW72iXQ2o=";
-        public static readonly string Nonce = "np/5WR0HdeXb62uAsZ1NUE0XIThToKCc9/TV6YRTb6M=";
+        public static readonly string PrivateKey = "AhEuYMbouo+Ez0issehA/G+oN/d6H4JjF7VrmlUL5O8=";
+        public static readonly string PublicKey = "BAknJEVMqyWYtn0ePDIJ4ObfE1yVpU53jLrtLmKAUqIlVDlh7MPZWZBTlIWRhChgRV+cvuxt6dxQq9umtBHAIdM=";
+        public static readonly string X509PublicKey = "MIIBMTCB6gYHKoZIzj0CATCB3gIBATArBgcqhkjOPQEBAiB/////////////////////////////////////////7TBEBCAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqYSRShRAQge0Je0Je0Je0Je0Je0Je0Je0Je0Je0Je0JgtenHcQyGQEQQQqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq0kWiCuGaG4oIa04B7dLHdI0UySPU1+bXxhsinpxaJ+ztPZAiAQAAAAAAAAAAAAAAAAAAAAFN753qL3nNZYEmMaXPXT7QIBCANCAAQJJyRFTKslmLZ9HjwyCeDm3xNclaVOd4y67S5igFKiJVQ5YezD2VmQU5SFkYQoYEVfnL7sbencUKvbprQRwCHT";
+        public static readonly string Nonce = "wAo44zjX3ifgrNHhdTOtFMEwmCbCR0R+jDhf50HBoHQ=";
     }
 }

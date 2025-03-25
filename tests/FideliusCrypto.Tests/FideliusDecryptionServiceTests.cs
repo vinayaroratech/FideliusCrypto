@@ -22,9 +22,9 @@ public class FideliusDecryptionServiceTests
         var decryptionRequest = new FideliusDecryptionRequest(
             KeyStorageUtil.Alice.PrivateKey,
             KeyStorageUtil.Alice.Nonce,
-            KeyStorageUtil.Bob.PublicKey,
+            KeyStorageUtil.Bob.X509PublicKey,
             KeyStorageUtil.Bob.Nonce,
-            "8ocpmI6RIVAjsgjlj82W5b1MXBHidTc8oYeq0HkxdC0vEGeMPxSULKIerI6DNPPxEYpc");
+            "ZYOSU9TVsTC7gIFd6AZnkpUC1SDbcJ2LnagQ/35mGwWRg8lgCWvJ3pB8bcm1yokH6q+1");
 
         // Act
         var response = _decryptionService.Decrypt(decryptionRequest);
@@ -43,9 +43,9 @@ public class FideliusDecryptionServiceTests
         var decryptionRequest = new FideliusDecryptionRequest(
             KeyStorageUtil.Bob.PrivateKey,
             KeyStorageUtil.Bob.Nonce,
-            KeyStorageUtil.Alice.PublicKey,
+            KeyStorageUtil.Alice.X509PublicKey,
             KeyStorageUtil.Alice.Nonce,
-            "w4w5nqSVJ2w+vIN5H2hfiQwr+1mCCtLKg3A=");
+            "VIiCVf7RtwymjigqGwLHC+OYuTYmodZ6dHE=");
 
         // Act
         var response = _decryptionService.Decrypt(decryptionRequest);
