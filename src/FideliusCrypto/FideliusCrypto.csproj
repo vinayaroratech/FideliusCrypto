@@ -3,7 +3,7 @@
     <TargetFrameworks>net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>1.0.13</Version>
+    <Version>1.0.14</Version>
     <Authors>Vinay Arora</Authors>
     <Description>
 			FideliusCrypto is a .NET library implementing ECDH cryptography with Curve25519 and a custom HMAC-based Key Derivation Function to derive AES-GCM keys. Designed to ensure the secure encryption and decryption of data, it is tailored to safeguard health data in the ABDM ecosystem.</Description>
